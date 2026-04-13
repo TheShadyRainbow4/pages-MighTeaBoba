@@ -1,0 +1,611 @@
+```react
+import React, { useState, useEffect, useMemo } from 'react';
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from 'firebase/auth';
+import { getFirestore, collection, doc, updateDoc, onSnapshot, deleteDoc, writeBatch } from 'firebase/firestore';
+import { Plus, Minus, Printer, X, Trash2, Save, Zap, RotateCcw, Coffee, Package, Droplets, Cloud, HardDrive, WifiOff } from 'lucide-react';
+
+// Initialize Firebase outside the component
+const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+// MighTea Boba Color Palette Extracted from Images
+const colors = {
+  teal: '#52A5B8',
+  orange: '#E76F43',
+  yellow: '#F0D24B',
+  red: '#CF3C43',
+  base: '#EBE8DF', 
+  dark: '#4A423E', 
+};
+
+// Key for the secondary local database
+const LOCAL_DB_KEY = 'mightea_inventory_redundancy_v2';
+
+export default function App() {
+  const [user, setUser] = useState(null);
+  const [inventory, setInventory] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isResetting, setIsResetting] = useState(false);
+  const [connectionState, setConnectionState] = useState('connecting'); // connecting, cloud, local
+  
+  // Modal State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newItem, setNewItem] = useState({ category: '', name: '', quantity: 0, unit: '' });
+  
+  // Auth Initialization
+  useEffect(() => {
+    const initAuth = async () => {
+      try {
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          await signInWithCustomToken(auth, __initial_auth_token);
+        } else {
+          await signInAnonymously(auth);
+        }
+      } catch (err) {
+        console.error("Auth error:", err);
+        setConnectionState('local');
+      }
+    };
+    initAuth();
+
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    const handleOffline = () => setConnectionState('local');
+    const handleOnline = () => setConnectionState('connecting');
+    
+    window.addEventListener('offline', handleOffline);
+    window.addEventListener('online', handleOnline);
+
+    return () => {
+      unsubscribe();
+      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('online', handleOnline);
+    };
+  }, []);
+
+  // Data Fetching & Dual Database Sync - Remote First, Local Backup
+  useEffect(() => {
+    // 1. INSTANT UI LOAD: Grab the local database so we don't stare at a loading screen
+    const localData = localStorage.getItem(LOCAL_DB_KEY);
+    if (localData) {
+      try {
+        setInventory(JSON.parse(localData));
+        setLoading(false);
+      } catch (e) {
+        console.error("Local DB read error", e);
+      }
+    }
+
+    if (!user) return;
+    
+    if (!navigator.onLine) {
+       setConnectionState('local');
+       setLoading(false);
+       return;
+    }
+
+    // 2. REMOTE SYNC: Connect to Cloud and establish the live pipeline
+    const inventoryRef = collection(db, 'artifacts', appId, 'public', 'data', 'inventory');
+    
+    const unsubscribe = onSnapshot(
+      inventoryRef,
+      (snapshot) => {
+        const items = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        
+        // Update application state with remote data
+        setInventory(items);
+        setLoading(false);
+        setConnectionState('cloud');
+        
+        // 3. OVERWRITE LOCAL: Download remote database to device, ensuring local is perfectly mirrored
+        localStorage.setItem(LOCAL_DB_KEY, JSON.stringify(items));
+      },
+      (err) => {
+        console.error("Firestore error:", err);
+        setConnectionState('local');
+        setLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [user]);
+
+  // Group inventory by category locally
+  const groupedInventory = useMemo(() => {
+    return inventory.reduce((acc, item) => {
+      const cat = item.category || 'Uncategorized';
+      if (!acc[cat]) acc[cat] = [];
+      acc[cat].push(item);
+      return acc;
+    }, {});
+  }, [inventory]);
+
+  // Actions
+  const updateQuantity = async (id, currentQty, delta) => {
+    const newQty = Math.max(0, currentQty + delta);
+    
+    // Optimistic UI update (feels instant to the user)
+    const updatedInventory = inventory.map(item => 
+      item.id === id ? { ...item, quantity: newQty } : item
+    );
+    setInventory(updatedInventory);
+    localStorage.setItem(LOCAL_DB_KEY, JSON.stringify(updatedInventory));
+
+    if (connectionState === 'cloud') {
+      try {
+        const itemRef = doc(db, 'artifacts', appId, 'public', 'data', 'inventory', id);
+        await updateDoc(itemRef, { quantity: newQty });
+      } catch (err) {
+        console.error("Error updating cloud quantity:", err);
+      }
+    }
+  };
+
+  const handleAddNewItem = async (e) => {
+    e.preventDefault();
+    if (!newItem.name || !newItem.category) return;
+
+    if (connectionState === 'local') {
+      alert("Please connect to the internet to add entirely new items. (Quantity updates still work offline!)");
+      return;
+    }
+
+    try {
+      // Use batch writing here as well for safety
+      const batch = writeBatch(db);
+      const newDocRef = doc(collection(db, 'artifacts', appId, 'public', 'data', 'inventory'));
+      
+      batch.set(newDocRef, {
+        category: newItem.category.trim(),
+        name: newItem.name.trim(),
+        quantity: Number(newItem.quantity) || 0,
+        unit: newItem.unit.trim()
+      });
+      
+      await batch.commit();
+      setIsModalOpen(false);
+      setNewItem({ category: '', name: '', quantity: 0, unit: '' });
+    } catch (err) {
+      console.error("Error adding item:", err);
+      alert("Failed to add new item to Cloud.");
+    }
+  };
+
+  const deleteItem = async (id) => {
+    if (connectionState === 'local') {
+      alert("Please connect to the internet to delete items.");
+      return;
+    }
+
+    if (window.confirm("Trash this item completely?")) {
+      try {
+        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'inventory', id));
+      } catch (err) {
+        console.error("Error deleting item:", err);
+      }
+    }
+  };
+
+  const handleResetAll = async () => {
+    if (connectionState === 'local') {
+      alert("You must be connected to the Cloud to perform a master reset.");
+      return;
+    }
+
+    const firstConfirm = window.confirm("Are you sure you want to reset ALL inventory quantities to 0?");
+    if (!firstConfirm) return;
+
+    const secondConfirm = window.confirm("FINAL WARNING: This action cannot be undone. Are you absolutely positive you want to wipe all counts to 0?");
+    if (!secondConfirm) return;
+
+    setIsResetting(true);
+    try {
+      const batch = writeBatch(db);
+      inventory.forEach((item) => {
+        const itemRef = doc(db, 'artifacts', appId, 'public', 'data', 'inventory', item.id);
+        batch.update(itemRef, { quantity: 0 });
+      });
+      await batch.commit();
+    } catch (err) {
+      console.error("Error resetting inventory:", err);
+      alert("Failed to reset inventory. Please try again.");
+    } finally {
+      setIsResetting(false);
+    }
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  // Expanded Seed Data - NOW USING BATCH WRITING TO PREVENT FREEZING
+  const seedInitialData = async () => {
+    setLoading(true);
+    
+    const initialData = [
+      { category: 'Toppings & Boba', name: 'Strawberry Boba', quantity: 3, unit: '' },
+      { category: 'Toppings & Boba', name: 'Mango Boba', quantity: 4, unit: '' },
+      { category: 'Toppings & Boba', name: 'Blueberry Boba', quantity: 3, unit: '' },
+      { category: 'Toppings & Boba', name: 'Cherry Boba', quantity: 2, unit: '' },
+      { category: 'Toppings & Boba', name: 'Green Apple Boba', quantity: 5, unit: '' },
+      { category: 'Toppings & Boba', name: 'Lychee Boba', quantity: 1, unit: '' },
+      { category: 'Toppings & Boba', name: 'Coffee Pearls', quantity: 0, unit: '' },
+      { category: 'Toppings & Boba', name: 'Coffee Jelly', quantity: 0, unit: '' },
+      { category: 'Toppings & Boba', name: 'Lychee Coconut Jelly', quantity: 0, unit: '' },
+      { category: 'Toppings & Boba', name: 'Aloe Vera', quantity: 0, unit: '' },
+      { category: 'Toppings & Boba', name: 'Egg Pudding', quantity: 0, unit: '' },
+      { category: 'Toppings & Boba', name: 'Red Bean', quantity: 0, unit: '' },
+      { category: 'Toppings & Boba', name: 'Crystal Boba', quantity: 0, unit: '' },
+      { category: 'Toppings & Boba', name: 'Brown Sugar Tapioca', quantity: 0, unit: '' },
+      
+      { category: 'Syrups & Flavors', name: 'Blueberry Syrup', quantity: 2, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Green Apple Syrup', quantity: 2, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Kiwi Syrup', quantity: 1, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Lemon Syrup', quantity: 2, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Mango Syrup', quantity: 5, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Passion Syrup', quantity: 1, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Peach Syrup', quantity: 1, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Pineapple Syrup', quantity: 1, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Raspberry Syrup', quantity: 4, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Strawberry Syrup', quantity: 5, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Watermelon Syrup', quantity: 0, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Torani Almond', quantity: 1, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Torani Cherry', quantity: 1, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Torani Pumpkin Spice', quantity: 2, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Torani Coconut', quantity: 3, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Torani Irish Cream', quantity: 0, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Torani Toasted Mallow', quantity: 2, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Torani Red Raspberry', quantity: 2, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Torani Peppermint', quantity: 2, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Torani Hazelnut', quantity: 2, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Torani Vanilla Bean', quantity: 0, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Torani Creme de Banana', quantity: 2, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Torani Peanutbutter', quantity: 0, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Torani Blue Raspberry', quantity: 1, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Dark Chocolate Sauce', quantity: 2, unit: '' },
+      { category: 'Syrups & Flavors', name: 'Caramel Sauce', quantity: 1, unit: '' },
+      { category: 'Syrups & Flavors', name: 'White Chocolate Sauce', quantity: 2, unit: '' },
+
+      { category: 'Powders', name: 'Creamer', quantity: 1, unit: '' },
+      { category: 'Powders', name: 'Banana', quantity: 1, unit: '' },
+      { category: 'Powders', name: 'Brown Sugar', quantity: 1, unit: '' },
+      { category: 'Powders', name: 'Chocolate', quantity: 0, unit: '' },
+      { category: 'Powders', name: 'Coconut', quantity: 2, unit: '' },
+      { category: 'Powders', name: 'Honeydew', quantity: 0, unit: '' },
+      { category: 'Powders', name: 'Black Milk', quantity: 2, unit: '' },
+      { category: 'Powders', name: 'Thai', quantity: 0, unit: '' },
+      { category: 'Powders', name: 'Taro', quantity: 1, unit: '' },
+      { category: 'Powders', name: 'Strawberry', quantity: 0, unit: '' },
+      { category: 'Powders', name: 'Vanilla', quantity: 2, unit: '' },
+      { category: 'Powders', name: 'Almond', quantity: 2, unit: '' },
+      { category: 'Powders', name: 'Blue Hawaiian', quantity: 7, unit: '' },
+      { category: 'Powders', name: 'Coffee', quantity: 2, unit: '' },
+      { category: 'Powders', name: 'Creme Brulee', quantity: 1, unit: '' },
+      { category: 'Powders', name: 'Pumpkin Spice', quantity: 0, unit: '' },
+      { category: 'Powders', name: 'White Knight Powder', quantity: 1, unit: '' },
+      { category: 'Powders', name: 'Matcha Powder', quantity: 0, unit: '' },
+
+      { category: 'Smoothies & Blends', name: 'Mango Smoothie Base', quantity: 6, unit: '' },
+      { category: 'Smoothies & Blends', name: 'Strawberry Smoothie Base', quantity: 3, unit: '' },
+      { category: 'Smoothies & Blends', name: 'Strawberry Banana Base', quantity: 0, unit: '' },
+      { category: 'Smoothies & Blends', name: 'Raspberry Smoothie Base', quantity: 0, unit: '' },
+      { category: 'Smoothies & Blends', name: 'Spiced Chai', quantity: 2, unit: '' },
+      { category: 'Smoothies & Blends', name: 'Vanilla Chai', quantity: 0, unit: '' },
+      { category: 'Smoothies & Blends', name: 'Pumpkin Pie Chai', quantity: 0, unit: '' },
+      { category: 'Smoothies & Blends', name: 'Kidz Cream Orange', quantity: 0, unit: '' },
+      { category: 'Smoothies & Blends', name: 'Kidz Cream Cotton Candy', quantity: 0, unit: '' },
+      { category: 'Smoothies & Blends', name: 'Java Chip', quantity: 0, unit: '' },
+      { category: 'Smoothies & Blends', name: 'Caramel Latte', quantity: 0, unit: '' },
+      { category: 'Smoothies & Blends', name: 'Pumpkin Spice Blended', quantity: 3, unit: '' },
+      { category: 'Smoothies & Blends', name: 'Bubble Tea Shake (Classic White)', quantity: 1, unit: '' },
+
+      { category: 'Teas, Coffee & Dairy', name: 'Decaf Tea Bags', quantity: 1, unit: 'bag' },
+      { category: 'Teas, Coffee & Dairy', name: 'Black Tea Bags', quantity: 1, unit: 'bag' },
+      { category: 'Teas, Coffee & Dairy', name: 'Green Tea Bags', quantity: 1, unit: 'bag' },
+      { category: 'Teas, Coffee & Dairy', name: 'Jasmine Green Tea', quantity: 0, unit: 'bag' },
+      { category: 'Teas, Coffee & Dairy', name: 'Oolong Tea', quantity: 0, unit: 'bag' },
+      { category: 'Teas, Coffee & Dairy', name: 'Earl Grey Tea', quantity: 0, unit: 'bag' },
+      { category: 'Teas, Coffee & Dairy', name: 'Seneca Coffee Beans', quantity: 0, unit: 'virtually none' },
+      { category: 'Teas, Coffee & Dairy', name: 'Canandaigua Coffee Beans', quantity: 0.66, unit: 'bag' },
+      { category: 'Teas, Coffee & Dairy', name: 'Whole Milk', quantity: 0, unit: 'gallon' },
+      { category: 'Teas, Coffee & Dairy', name: 'Oat Milk', quantity: 0, unit: 'carton' },
+      { category: 'Teas, Coffee & Dairy', name: 'Almond Milk', quantity: 0, unit: 'carton' },
+      { category: 'Teas, Coffee & Dairy', name: 'Soy Milk', quantity: 0, unit: 'carton' },
+      { category: 'Teas, Coffee & Dairy', name: 'Half & Half', quantity: 0, unit: 'carton' },
+
+      { category: 'Ingredients', name: 'White Sugar', quantity: 0.66, unit: 'container' },
+      { category: 'Ingredients', name: 'Brown Sugar', quantity: 2.5, unit: '' },
+      { category: 'Ingredients', name: 'Fructose Syrup', quantity: 0, unit: 'jug' },
+      { category: 'Ingredients', name: 'Honey', quantity: 0, unit: 'bottle' },
+
+      { category: 'Supplies & Packaging', name: '16oz Iced Cups', quantity: 0, unit: '' },
+      { category: 'Supplies & Packaging', name: '24oz Iced Cups', quantity: 23, unit: '' },
+      { category: 'Supplies & Packaging', name: '32oz Iced Cups', quantity: 9, unit: '' },
+      { category: 'Supplies & Packaging', name: 'Normal Lids (16/24oz)', quantity: 14, unit: '' },
+      { category: 'Supplies & Packaging', name: 'Dome Lids', quantity: 12, unit: '' },
+      { category: 'Supplies & Packaging', name: '32oz Lids', quantity: 4.5, unit: '' },
+      { category: 'Supplies & Packaging', name: '16oz Hot Cups', quantity: 13, unit: '' },
+      { category: 'Supplies & Packaging', name: '20oz Hot Cups', quantity: 20, unit: '' },
+      { category: 'Supplies & Packaging', name: 'Hot Lids', quantity: 5, unit: '' },
+      { category: 'Supplies & Packaging', name: 'Hot Sleeves', quantity: 1, unit: 'whole case' },
+      { category: 'Supplies & Packaging', name: 'Boba Straws', quantity: 0, unit: '' },
+      { category: 'Supplies & Packaging', name: 'Regular Straws', quantity: 0, unit: '' },
+      { category: 'Supplies & Packaging', name: '4oz Ice Cream Cups', quantity: 0, unit: '' },
+      { category: 'Supplies & Packaging', name: '6oz Ice Cream Cups', quantity: 0.5, unit: 'sleeve' },
+      { category: 'Supplies & Packaging', name: '16oz (Pint) Ice Cream Cups', quantity: 12, unit: '' },
+      { category: 'Supplies & Packaging', name: 'Napkins', quantity: 0, unit: 'case' },
+      { category: 'Supplies & Packaging', name: 'Drink Carriers', quantity: 0, unit: '' },
+      { category: 'Supplies & Packaging', name: 'Receipt Paper', quantity: 0, unit: 'roll' }
+    ];
+
+    try {
+      const batch = writeBatch(db);
+      
+      initialData.forEach((item) => {
+        const newDocRef = doc(collection(db, 'artifacts', appId, 'public', 'data', 'inventory'));
+        batch.set(newDocRef, item);
+      });
+      
+      await batch.commit();
+      // The onSnapshot will automatically detect these new items, update the UI, and drop them into localStorage
+      
+    } catch (err) {
+      console.error("Failed to seed database: ", err);
+      alert("Failed to build the remote database. Are you connected to the internet?");
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className={`flex h-screen items-center justify-center bg-[${colors.base}]`}>
+        <div className={`text-xl font-bold text-[${colors.dark}] animate-pulse flex items-center gap-2 opacity-60`}>
+           <Coffee size={24} className="animate-bounce" />
+           Brewing Data...
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`min-h-screen bg-[${colors.base}] text-[${colors.dark}] pb-24 font-sans`}>
+      
+      {/* Header */}
+      <header className={`bg-white/80 backdrop-blur-md sticky top-0 z-10 print:static print:bg-transparent shadow-[0_8px_30px_rgb(0,0,0,0.04)] print:shadow-none border-b border-white mb-6`}>
+        <div className="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <div className={`w-8 h-8 rounded-full bg-[${colors.teal}] flex items-center justify-center text-white shadow-md print:hidden`}>
+              <Droplets size={16} />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold tracking-tight">MighTea Sync</h1>
+              <div className="flex items-center gap-1 mt-0.5 print:hidden">
+                {connectionState === 'cloud' && (
+                  <>
+                    <Cloud size={10} className="text-emerald-500" />
+                    <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Cloud Active</span>
+                  </>
+                )}
+                {connectionState === 'local' && (
+                  <>
+                    <HardDrive size={10} className="text-yellow-600" />
+                    <span className="text-[10px] font-bold text-yellow-600 uppercase tracking-wider">Local Backup Active</span>
+                  </>
+                )}
+                {connectionState === 'connecting' && (
+                  <>
+                    <WifiOff size={10} className="text-gray-400 animate-pulse" />
+                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Syncing...</span>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <button 
+              onClick={handleResetAll}
+              disabled={inventory.length === 0 || isResetting}
+              className={`flex items-center gap-1.5 bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg text-xs font-semibold shadow-sm transition-all disabled:opacity-50 print:hidden`}
+            >
+              <RotateCcw size={14} />
+              <span className="hidden sm:inline">Reset All</span>
+            </button>
+            <button 
+              onClick={handlePrint}
+              className={`flex items-center gap-1.5 bg-[${colors.teal}] text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow-sm hover:shadow-md transition-all print:hidden`}
+            >
+              <Printer size={14} />
+              <span className="hidden sm:inline">PDF</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-3xl mx-auto px-4 print:py-0">
+        
+        {/* Offline Warning Banner */}
+        {connectionState === 'local' && (
+          <div className="bg-yellow-100 text-yellow-800 border border-yellow-200 p-3 rounded-xl mb-6 text-xs font-bold flex items-center justify-center gap-2 print:hidden shadow-sm">
+            <HardDrive size={14} />
+            Operating on Local Database. Quantities update locally. Connect to internet to add/delete items.
+          </div>
+        )}
+
+        {/* Empty State / Seed Data Button */}
+        {inventory.length === 0 && (
+          <div className="bg-white/60 p-6 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] text-center print:hidden my-6 border border-white">
+            <Package size={40} className="mx-auto mb-3 opacity-20" />
+            <h2 className="text-lg font-bold mb-2">Inventory is Empty</h2>
+            <p className="text-sm opacity-70 mb-6">Let's populate the database with your notes and standard cafe supplies.</p>
+            <button 
+              onClick={seedInitialData}
+              className={`bg-[${colors.orange}] text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-orange-500/30 hover:shadow-xl hover:-translate-y-0.5 transition-all`}
+            >
+              Load Database
+            </button>
+          </div>
+        )}
+
+        {/* Inventory List */}
+        <div className="space-y-6 print:space-y-4 print:columns-2">
+          {Object.keys(groupedInventory).sort().map(category => (
+            <section key={category} className="break-inside-avoid">
+              
+              <h2 className="text-sm font-bold uppercase tracking-wider mb-3 opacity-60 print:text-xs">
+                {category}
+              </h2>
+
+              <div className="flex flex-col gap-2 print:gap-1">
+                {groupedInventory[category].sort((a,b) => a.name.localeCompare(b.name)).map(item => (
+                  <div key={item.id} className="relative bg-white/90 p-2 sm:p-3 rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-white/60 backdrop-blur-sm transform transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:-translate-y-0.5 flex items-center justify-between print:p-1 print:shadow-none print:border-b print:border-gray-200 print:rounded-none group">
+                    
+                    <div className="flex-1 pr-2 min-w-0">
+                      <div className="font-semibold text-sm truncate print:text-xs">{item.name}</div>
+                      {item.unit && <div className="text-[10px] font-medium opacity-50 uppercase print:text-[8px]">{item.unit}</div>}
+                    </div>
+
+                    <div className="flex items-center gap-2 print:gap-1">
+                      <button 
+                        onClick={() => updateQuantity(item.id, item.quantity, -1)}
+                        className={`w-8 h-8 flex items-center justify-center bg-gray-50 text-gray-600 rounded-full shadow-sm border border-gray-100 active:scale-95 transition-all print:hidden`}
+                      >
+                        <Minus size={16} strokeWidth={2.5} />
+                      </button>
+                      
+                      <div className="w-8 text-center text-base font-bold print:text-sm print:text-right">
+                        {item.quantity}
+                      </div>
+                      
+                      <button 
+                        onClick={() => updateQuantity(item.id, item.quantity, 1)}
+                        className={`w-8 h-8 flex items-center justify-center bg-[${colors.teal}] text-white rounded-full shadow-md shadow-teal-500/20 active:scale-95 transition-all print:hidden`}
+                      >
+                        <Plus size={16} strokeWidth={2.5} />
+                      </button>
+
+                      <button 
+                        onClick={() => deleteItem(item.id)}
+                        className="ml-1 w-6 h-6 flex items-center justify-center text-gray-300 hover:text-red-500 sm:opacity-0 group-hover:opacity-100 transition-all print:hidden"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      </main>
+
+      {/* Floating Action Button */}
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className={`fixed bottom-6 right-6 w-14 h-14 bg-[${colors.yellow}] text-[${colors.dark}] rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(240,210,75,0.4)] hover:shadow-[0_15px_40px_rgba(240,210,75,0.5)] hover:-translate-y-1 active:scale-95 transition-all z-20 print:hidden`}
+      >
+        <Plus size={28} strokeWidth={3} />
+      </button>
+
+      {/* Add Item Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-900/20 backdrop-blur-sm z-50 flex items-center justify-center p-4 print:hidden">
+          <div className="bg-white/95 backdrop-blur-xl rounded-2xl w-full max-w-sm overflow-hidden flex flex-col max-h-[85vh] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)] border border-white">
+            
+            <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+              <h2 className="text-lg font-bold">Add Item</h2>
+              <button 
+                onClick={() => setIsModalOpen(false)} 
+                className="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100 transition-all"
+              >
+                <X size={16} strokeWidth={2.5} />
+              </button>
+            </div>
+
+            <form onSubmit={handleAddNewItem} className="p-5 overflow-y-auto space-y-4">
+              
+              <div>
+                <label className="block text-xs font-bold mb-1 opacity-70 uppercase">Category</label>
+                <input 
+                  type="text" 
+                  required
+                  placeholder="e.g. Smoothies"
+                  list="categories"
+                  value={newItem.category}
+                  onChange={(e) => setNewItem({...newItem, category: e.target.value})}
+                  className="w-full p-2.5 bg-gray-50 rounded-lg border border-gray-100 focus:bg-white focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all text-sm font-semibold"
+                />
+                <datalist id="categories">
+                  {Object.keys(groupedInventory).map(cat => (
+                    <option key={cat} value={cat} />
+                  ))}
+                </datalist>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold mb-1 opacity-70 uppercase">Product Name</label>
+                <input 
+                  type="text" 
+                  required
+                  placeholder="e.g. Jasmine Green Tea"
+                  value={newItem.name}
+                  onChange={(e) => setNewItem({...newItem, name: e.target.value})}
+                  className="w-full p-2.5 bg-gray-50 rounded-lg border border-gray-100 focus:bg-white focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all text-sm font-semibold"
+                />
+              </div>
+
+              <div className="flex gap-3">
+                <div className="flex-1">
+                  <label className="block text-xs font-bold mb-1 opacity-70 uppercase">Qty</label>
+                  <input 
+                    type="number" 
+                    step="0.01"
+                    min="0"
+                    required
+                    value={newItem.quantity}
+                    onChange={(e) => setNewItem({...newItem, quantity: e.target.value})}
+                    className="w-full p-2.5 bg-gray-50 rounded-lg border border-gray-100 focus:bg-white focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all text-sm font-semibold text-center"
+                  />
+                </div>
+                <div className="flex-[1.5]">
+                  <label className="block text-xs font-bold mb-1 opacity-70 uppercase">Unit (Opt)</label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. bags"
+                    value={newItem.unit}
+                    onChange={(e) => setNewItem({...newItem, unit: e.target.value})}
+                    className="w-full p-2.5 bg-gray-50 rounded-lg border border-gray-100 focus:bg-white focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all text-sm font-semibold"
+                  />
+                </div>
+              </div>
+
+              <div className="pt-2 mt-4">
+                <button 
+                  type="submit"
+                  className={`w-full bg-[${colors.teal}] text-white font-bold text-sm py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-teal-500/25 hover:-translate-y-0.5 hover:shadow-xl transition-all`}
+                >
+                  <Save size={18} strokeWidth={2.5} /> Save Item
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+}
+
+
+```
