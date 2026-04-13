@@ -42,31 +42,26 @@
 
     <!-- Header -->
     <header class="bg-white/80 backdrop-blur-md sticky top-0 z-10 print-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-b border-white mb-6 transition-all duration-300">
-        <div class="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded-full bg-mightea-teal flex items-center justify-center text-white shadow-md">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"></path></svg>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-tight leading-tight">MighTea Sync</h1>
-                    <div id="connection-status" class="flex items-center gap-1 mt-0.5">
-                        <svg class="text-gray-400 animate-pulse" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 2 20 20"/><path d="M8.53 8.53a1 1 0 0 0-1.42 1.42"/><path d="M12 12a1 1 0 0 0-1.42 1.42"/><path d="M15.47 15.47a1 1 0 0 0-1.42 1.42"/><path d="M2.5 13.5a13 13 0 0 1 2.22-3.13"/><path d="M6.3 6.3a13 13 0 0 1 15.2 0"/><path d="M5.4 9.4a9 9 0 0 1 13.2 0"/></svg>
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider" id="status-text">Connecting...</span>
+                    <h1 class="font-bold text-sm tracking-wide">MighTea Boba</h1>
+                    <div id="connection-status" class="flex items-center gap-1.5 opacity-90 transition-all">
+                        <svg class="text-gray-400" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
+                        <span class="text-[10px] font-medium text-gray-500 uppercase tracking-wider">Connecting...</span>
                     </div>
                 </div>
             </div>
-            <div class="flex gap-2">
-                <button id="btn-share" class="flex items-center gap-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-semibold shadow-sm transition-all">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                    <span class="hidden sm:inline">Link Phone</span>
+            <div class="flex items-center gap-2">
+                <button id="btn-settings" class="p-2 text-gray-500 hover:text-mightea-dark transition-colors print-hidden rounded-full hover:bg-gray-100">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                 </button>
-                <button id="btn-reset-all" class="flex items-center gap-1.5 bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg text-xs font-semibold shadow-sm transition-all">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                    <span class="hidden sm:inline">Reset All</span>
-                </button>
-                <button onclick="window.print()" class="flex items-center gap-1.5 bg-mightea-teal text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow-sm hover:shadow-md transition-all">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
-                    <span class="hidden sm:inline">PDF</span>
+                <button onclick="window.print()" class="text-[11px] font-bold uppercase tracking-wider px-4 py-2 bg-mightea-teal text-white rounded-full hover:bg-[#3d8b9c] active:scale-95 transition-all shadow-sm print-hidden flex items-center gap-1.5">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+                    Print
                 </button>
             </div>
         </div>
@@ -387,15 +382,25 @@
             }
         }
 
-        async function syncToRemote() {
-            if (!dbId || !navigator.onLine) return;
+                async function syncToRemote() {
+            if (!githubToken || !navigator.onLine) { setStatus('offline'); return; }
+            if (!dbId) return;
             setStatus('syncing');
             try {
-                await fetch(`https://api.npoint.io/${dbId}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(inventory)
+                const body = {
+                    files: {
+                        "inventory.json": {
+                            content: JSON.stringify(inventory, null, 2)
+                        }
+                    }
+                };
+                const res = await fetch(`https://api.github.com/gists/${dbId}`, {
+                    method: 'PATCH',
+                    headers: getGithubHeaders(),
+                    body: JSON.stringify(body)
                 });
+
+                if (!res.ok) throw new Error('Failed to save to Gist');
                 setStatus('cloud');
             } catch (err) {
                 console.error("Failed to save to cloud", err);
@@ -403,23 +408,34 @@
             }
         }
 
-        async function fetchFromRemote() {
-            if (!dbId || !navigator.onLine) return;
+                async function fetchFromRemote() {
+            if (!githubToken || !navigator.onLine) return;
+            if (!dbId) return;
             try {
-                const res = await fetch(`https://api.npoint.io/${dbId}`);
+                const res = await fetch(`https://api.github.com/gists/${dbId}`, {
+                    headers: getGithubHeaders()
+                });
+
+                if (!res.ok) throw new Error('Failed to fetch from Gist');
+
                 const data = await res.json();
-                if (data && Array.isArray(data)) {
-                    inventory = data;
-                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(inventory));
-                    renderApp();
-                    setStatus('cloud');
+                const fileContent = data.files["inventory.json"]?.content;
+
+                if (fileContent) {
+                    const decoded = JSON.parse(fileContent);
+                    if (decoded && Array.isArray(decoded)) {
+                        inventory = decoded;
+                        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(inventory));
+                        renderApp();
+                        setStatus('cloud');
+                    }
                 }
             } catch (err) {
                 console.error("Failed to load from cloud", err);
             }
         }
 
-        async function initializeDatabase() {
+                async function initializeDatabase() {
             // Instant load from local if available to prevent blank screens
             const local = localStorage.getItem(LOCAL_STORAGE_KEY);
             if (local) {
@@ -433,16 +449,40 @@
                 return;
             }
 
+            if (!githubToken) {
+                // Generate initial data if no local data
+                if (!local) {
+                    inventory = initialData;
+                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(inventory));
+                    renderApp();
+                }
+                loader.classList.add('hidden');
+                setStatus('offline');
+                return;
+            }
+
             if (!dbId) {
-                // CREATE A BRAND NEW REMOTE DATABASE
-                loaderText.innerText = "Building Public Database...";
+                // CREATE A BRAND NEW REMOTE GIST DATABASE
+                loaderText.innerText = "Building Private Database...";
                 loader.classList.remove('hidden');
                 try {
-                    const res = await fetch('https://api.npoint.io/', {
+                    const body = {
+                        description: "MighTea Boba Inventory Database",
+                        public: false,
+                        files: {
+                            "inventory.json": {
+                                content: JSON.stringify(initialData, null, 2)
+                            }
+                        }
+                    };
+                    const res = await fetch('https://api.github.com/gists', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(initialData)
+                        headers: getGithubHeaders(),
+                        body: JSON.stringify(body)
                     });
+
+                    if (!res.ok) throw new Error('Failed to create Gist');
+
                     const data = await res.json();
                     dbId = data.id; // Save the newly generated ID
                     window.location.hash = dbId; // Put it in the URL!
@@ -611,6 +651,45 @@
             closeAddModal();
             e.target.reset();
             document.getElementById('add-qty').value = "0";
+        });
+
+
+        // Settings Modal Handlers
+        const settingsModal = document.getElementById('settings-modal');
+        const settingsModalContent = document.getElementById('settings-modal-content');
+
+        document.getElementById('btn-settings').addEventListener('click', () => {
+            document.getElementById('settings-token').value = githubToken;
+            document.getElementById('settings-gist').value = dbId || '';
+
+            settingsModal.classList.remove('hidden');
+            void settingsModal.offsetWidth;
+            settingsModal.classList.remove('opacity-0');
+            settingsModalContent.classList.remove('translate-y-full', 'sm:scale-95');
+        });
+
+        function closeSettingsModal() {
+            settingsModal.classList.add('opacity-0');
+            settingsModalContent.classList.add('translate-y-full', 'sm:scale-95');
+            setTimeout(() => settingsModal.classList.add('hidden'), 300);
+        }
+        document.getElementById('close-settings-modal').addEventListener('click', closeSettingsModal);
+
+        document.getElementById('settings-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            githubToken = document.getElementById('settings-token').value.trim();
+            const newGistId = document.getElementById('settings-gist').value.trim();
+
+            localStorage.setItem('githubToken', githubToken);
+
+            if (newGistId && newGistId !== dbId) {
+                dbId = newGistId;
+                window.location.hash = dbId;
+            }
+
+            closeSettingsModal();
+            initializeDatabase(); // Re-initialize with new settings
         });
 
         // Boot
