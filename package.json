@@ -1,0 +1,14 @@
+{
+  "name": "mighteaboba-inventory",
+  "version": "1.0.0",
+  "description": "Inventory App",
+  "main": "index.html",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "jest-environment-jsdom": "^29.0.0",
+    "jsdom": "^21.0.0"
+  }
+}
