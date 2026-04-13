@@ -391,9 +391,12 @@
             if (!dbId || !navigator.onLine) return;
             setStatus('syncing');
             try {
-                await fetch(`https://api.npoint.io/${dbId}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                await fetch(`https://jsonblob.com/api/jsonBlob/${dbId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
                     body: JSON.stringify(inventory)
                 });
                 setStatus('cloud');
@@ -406,7 +409,11 @@
         async function fetchFromRemote() {
             if (!dbId || !navigator.onLine) return;
             try {
-                const res = await fetch(`https://api.npoint.io/${dbId}`);
+                const res = await fetch(`https://jsonblob.com/api/jsonBlob/${dbId}`, {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
                 const data = await res.json();
                 if (data && Array.isArray(data)) {
                     inventory = data;
@@ -438,13 +445,33 @@
                 loaderText.innerText = "Building Public Database...";
                 loader.classList.remove('hidden');
                 try {
-                    const res = await fetch('https://api.npoint.io/', {
+                    const res = await fetch('https://jsonblob.com/api/jsonBlob', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
                         body: JSON.stringify(initialData)
                     });
-                    const data = await res.json();
-                    dbId = data.id; // Save the newly generated ID
+
+                    // JSONBlob returns the ID in the Location header or x-jsonblob-id header
+                    const locationHeader = res.headers.get('Location');
+                    const jsonblobIdHeader = res.headers.get('x-jsonblob-id');
+
+                    if (jsonblobIdHeader) {
+                        dbId = jsonblobIdHeader;
+                    } else if (locationHeader) {
+                        const parts = locationHeader.split('/');
+                        dbId = parts[parts.length - 1];
+                    } else {
+                        // Fallback, should not happen typically but if so we throw
+                        throw new Error("Could not extract ID from response");
+                    }
+
+                    // We also need to consume the response body, though we don't use it directly here for the ID
+                    await res.json();
+
+                    // Save the newly generated ID
                     window.location.hash = dbId; // Put it in the URL!
                     inventory = initialData;
                     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(inventory));
