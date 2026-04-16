@@ -1,256 +1,680 @@
-MighTea Boba Complete Beverage Guide
-_________________
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MighTea Boba - Master Database</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --mt-orange: #f37021;
+            --mt-teal: #00acc1;
+            --mt-yellow: #fdd835;
+        }
 
+        body {
+            font-family: 'Outfit', sans-serif;
+            /* Ultra subtle diagonal gradient, mostly white */
+            background: linear-gradient(135deg, rgba(243, 112, 33, 0.04) 0%, rgba(255, 255, 255, 1) 25%, rgba(255, 255, 255, 1) 75%, rgba(0, 172, 193, 0.04) 100%);
+            background-attachment: fixed;
+            color: #1e293b;
+            min-height: 100vh;
+        }
 
-Iced Bubble Tea - Milk Tea
-MighTea Size (12oz)
-	1	Measure 12oz of tea base.
-	2	Add 1 scoop of creamer.
-	3	Add 1.5 scoops of flavor powder.
-	4	Add 2 scoops of bobas.
-	5	Add 1 full pump of sugar syrup.
-	6	Shake well and serve over ice.
-Teany Size (8oz)
-	1	Measure 8oz of tea base.
-	2	Add 1 scoop of creamer.
-	3	Add 1 scoop of flavor powder.
-	4	Add 2 scoops of bobas.
-	5	Add 1/2 pump of sugar syrup.
-	6	Shake well and serve over ice.
-Iced Bubble Tea - Fruit Tea
-MighTea Size (12oz)
-	1	Measure 12oz of tea base.
-	2	Do not add creamer.
-	3	Add 1.5 pumps of flavor syrup.
-	4	Add 2 scoops of bobas.
-	5	Add 1 full pump of sugar syrup.
-	6	Shake well and serve over ice.
-Teany Size (8oz)
-	1	Measure 8oz of tea base.
-	2	Do not add creamer.
-	3	Add 1 pump of flavor syrup.
-	4	Add 2 scoops of bobas.
-	5	Add 1/2 pump of sugar syrup.
-	6	Shake well and serve over ice.
-Bubble Tea Smoothie (MighTea Only)
-Milk Tea Smoothie Type
-	1	Measure 10oz of tea.
-	2	Add 1 scoop of creamer.
-	3	Add 2 scoops of flavor powder.
-	4	Add 1 full pump of sugar syrup.
-	5	Add 2 cups of ice to the blender.
-	6	Blend until smooth.
-	7	Add 2 scoops of bobas to the cup and pour in the smoothie.
-Fruit Tea Smoothie Type
-	1	Measure 8oz of tea.
-	2	Do not add creamer.
-	3	Add 2 pumps of flavor syrup.
-	4	Add 1 full pump of sugar syrup.
-	5	Add 2 cups of ice to the blender.
-	6	Blend until smooth.
-	7	Add 2 scoops of bobas to the cup and pour in the smoothie.
-Honeycomb Bubble Tea (MighTea Only)
-Preparation Steps
-	1	Measure 12oz of milk.
-	2	Add 1.5 pumps of Wintermelon fruit syrup.
-	3	Add 2 scoops of Tapioca bobas.
-	4	Add 1 full pump of sugar syrup.
-	5	Stir well with a spoon.
-	6	Note: DO NOT SHAKE (Milk will foam too much).
-Blended Energy Smoothies (MighTea Only)
-Mt. Dew (Amp)
-	1	Measure 8oz of Amp energy drink.
-	2	Add 2 scoops of Honeydew powder.
-	3	Add 1 scoop of creamer.
-	4	Add 2 scoops of boba to the cup.
-	5	Blend drink and powder with ice (do not over-ice).
-	6	Pour over boba.
-Cherry Love (Grape Kickstart)
-	1	Measure 8oz of Grape Kickstart energy drink.
-	2	Add 2 pumps of Raspberry syrup.
-	3	Add 2 scoops of boba to the cup.
-	4	Blend drink and syrup with ice (do not over-ice).
-	5	Pour over boba.
-Mango Madness (Mango Kickstart)
-	1	Measure 8oz of Mango Kickstart energy drink.
-	2	Add 2 pumps of Mango syrup.
-	3	Add 2 scoops of boba to the cup.
-	4	Blend drink and syrup with ice (do not over-ice).
-	5	Pour over boba.
-Grape Galore (Grape Kickstart)
-	1	Measure 8oz of Grape Kickstart energy drink.
-	2	Add 2 pumps of Grape syrup.
-	3	Add 2 scoops of boba to the cup.
-	4	Blend drink and syrup with ice (do not over-ice).
-	5	Pour over boba.
-Cherry Bomb (Cherry Kickstart)
-	1	Measure 8oz of Cherry Kickstart energy drink.
-	2	Add 2 pumps of Pineapple syrup.
-	3	Add 2 scoops of boba to the cup.
-	4	Blend drink and syrup with ice (do not over-ice).
-	5	Pour over boba.
-Berry Bomb (Berry Gamefuel)
-	1	Measure 8oz of Berry Gamefuel energy drink.
-	2	Add 1 pump of Blueberry syrup.
-	3	Add 1 pump of Raspberry syrup.
-	4	Add 2 scoops of boba to the cup.
-	5	Blend drink and syrups with ice (do not over-ice).
-	6	Pour over boba.
-Fruit Punch Rockstar (Blended)
-	1	Measure 8oz of Fruit Punch Rockstar.
-	2	Add 1 pump of Guava Fruit Tea syrup.
-	3	Add 1/2 pump of Orange Fruit Tea syrup.
-	4	Add 1/2 pump of Pineapple Fruit Tea syrup.
-	5	Add 2 cups of ice.
-	6	Blend until smooth.
-	7	Add 2 scoops of boba (Mango recommended) and pour drink over boba.
-Specialty Sodas & Spritzers (MighTea Only)
-Standard Base Instructions
-	1	Fill MighTea cup almost all the way with ice.
-	2	Add flavor syrup (see specific recipe below).
-	3	Pour the full 12oz can of soda on top.
-	4	Quick stir with an espresso spoon.
-	5	Top with a splash of half & half.
-	6	Cap the cup and swirl.
-Flavor Specifics
-	•	Razzmatazz: 6 pumps Raspberry Torani + 1 can Starry Soda.
-	•	Dirty: 6 pumps Coconut Torani + 1 can Dr. Pepper.
-	•	Cherry Dream: 6 pumps Cherry Torani + 1 can Pepsi.
-	•	Bubblegum Blitz: 1 large boba scoop Bubblegum syrup + 1 can Schweppes.
-	•	Campfire Comfort: 4 pumps Marshmallow + 2 pumps Vanilla Torani + 1 can Mug Rootbeer.
-	•	Tangy Tidal Wave: 6 pumps Blue Raspberry Torani + 1 can Starry Soda.
-	•	Cranberry Orange Spritzer (Mary Jolly): 5 pumps Cranberry + 1 pump Orange + 1 can Sprite.
-Signature Lattes
-MighTea Size (Hot or Iced)
-	1	Brew a triple shot of espresso.
-	2	Add sauces:
-	•	S'mores: 1 big scoop chocolate sauce.
-	•	Mounds: 1 big scoop chocolate sauce.
-	•	Jolly Cranberry: 1 big scoop white chocolate.
-	3	Add syrups:
-	•	S'mores: 6 pumps Toasted Marshmallow.
-	•	Mounds: 6 pumps Coconut.
-	•	Jolly Cranberry: 4 pumps Cranberry.
-	4	For Iced: Mix flavors into espresso until melted, add cold milk and ice.
-	5	For Hot: Steam milk with the syrup, pour over espresso and sauces.
-	6	Final Touches:
-	•	S'mores: Whip cream, chocolate drizzle, graham cracker sprinkles.
-	•	Mounds: Whip cream, chocolate drizzle, coconut sprinkles.
-	•	Jolly Cranberry: Whip cream.
-Teany Size (Hot or Iced)
-	1	Brew a double shot of espresso.
-	2	Add sauces:
-	•	S'mores: 2 small scoops chocolate sauce.
-	•	Mounds: 2 small scoops chocolate sauce.
-	•	Jolly Cranberry: 1 small scoop white chocolate.
-	3	Add syrups:
-	•	S'mores: 4 pumps Toasted Marshmallow.
-	•	Mounds: 4 pumps Coconut.
-	•	Jolly Cranberry: 2 pumps Cranberry.
-	4	For Iced: Mix flavors into espresso until melted, add cold milk and ice.
-	5	For Hot: Steam milk with the syrup, pour over espresso and sauces.
-	6	Final Touches:
-	•	S'mores: Whip cream, chocolate drizzle, graham cracker sprinkles.
-	•	Mounds: Whip cream, chocolate drizzle, coconut sprinkles.
-	•	Jolly Cranberry: Whip cream.
-Coffee & Mocha Flavor Formulas (Non-Latte)
-MighTea Size
-	1	Brew a triple shot of espresso.
-	2	Add flavors based on selection:
-	•	Caramel Craze: 2 big scoops Caramel + 2 pumps Vanilla.
-	•	Snickers: 1 big scoop Caramel + 2 pumps Hazelnut.
-	•	Buckeye: 1 big scoop White Choc + 2 pumps Peanut Butter.
-	•	Irish Mudslide: 1 big scoop Dark Choc + 2 pumps Irish Cream.
-	•	Rocky Road: 1 big scoop Dark Choc + 2 pumps Almond + 2 pumps Marshmallow.
-	•	Monkey Business: 2 big scoops Dark Choc + 2 pumps Banana.
-	•	Almond Joy: 1 big scoop Dark Choc + 2 pumps Coconut + 2 pumps Almond.
-	3	Mix with espresso, add cold milk/ice (Iced) or steamed milk (Hot).
-Teany Size
-	1	Brew a double shot of espresso.
-	2	Add flavors based on selection:
-	•	Caramel Craze: 1 big scoop Caramel + 1 pump Vanilla.
-	•	Snickers: 1 small scoop Caramel + 1 pump Hazelnut.
-	•	Buckeye: 1 small scoop White Choc + 1 pump Peanut Butter.
-	•	Irish Mudslide: 1 small scoop Dark Choc + 1 pump Irish Cream.
-	•	Rocky Road: 1 small scoop Dark Choc + 1 pump Almond + 1 pump Marshmallow.
-	•	Monkey Business: 1 big scoop Dark Choc + 1 pump Banana.
-	•	Almond Joy: 1 small scoop Dark Choc + 1 pump Coconut + 1 pump Almond.
-	3	Mix with espresso, add cold milk/ice (Iced) or steamed milk (Hot).
-Specialty Milkshakes
-MighTea Size
-	1	Measure 6oz of milk.
-	2	Add 1.5 scoops white frappe powder.
-	3	Add specific flavors:
-	•	Strawberry: 2 scoops Strawberry powder.
-	•	Pomegranate: 2 pumps Pomegranate syrup.
-	•	Green Apple: 2 pumps Green Apple + 1 pump Lemon.
-	•	Peach Mango: 1 pump Peach + 1 pump Mango.
-	•	Blueberry: 2 pumps Blueberry syrup.
-	•	Blue Hawaiian: 2 scoops Blue Hawaiian powder.
-	•	Peppermint Mocha: 2 scoops Choc Mocha powder + 7 pumps Peppermint syrup.
-	4	Add 2.5 cups of ice.
-	5	Blend until smooth.
-	6	Add 1.5 to 2 scoops of boba/pearls to the cup.
-	7	Pour milkshake into cup.
-	8	Add toppings: Whip cream + specific garnishes (Gummy tree for peppermint, Gummy shark for Hawaiian, etc.).
-Teany Size
-	1	Measure 4oz of milk.
-	2	Add 1 scoop white frappe powder.
-	3	Add specific flavors:
-	•	Strawberry: 1.5 scoops Strawberry powder.
-	•	Pomegranate: 1.5 pumps Pomegranate syrup.
-	•	Green Apple: 1 pump Green Apple + 0.5 pump Lemon.
-	•	Peach Mango: 1 pump Peach + 0.5 pump Mango.
-	•	Blueberry: 1.5 pumps Blueberry syrup.
-	•	Blue Hawaiian: 1.5 scoops Blue Hawaiian powder.
-	•	Peppermint Mocha: 1.5 scoops Choc Mocha powder + 5 pumps Peppermint syrup.
-	4	Add 1.5 cups of ice.
-	5	Blend until smooth.
-	6	Add 1 scoop of boba/pearls to the cup.
-	7	Pour milkshake into cup.
-	8	Add toppings: Whip cream + specific garnishes.
-Hershey's Premium Milkshakes
-Hershey's Pumpkin (MighTea Only)
-	1	Measure 3oz of milk.
-	2	Add 11oz of Pumpkin Ice Cream.
-	3	Drizzle the cup with Caramel sauce.
-	4	Pour blended mixture into the cup.
-	5	Top with whip cream, a light caramel drizzle, and a gummy pumpkin.
-Hershey's Vanilla (Teany Only)
-	1	Measure 2oz of milk.
-	2	Add 8oz of Vanilla Ice Cream.
-	3	Drizzle the cup with Caramel sauce.
-	4	Pour blended mixture into the cup.
-	5	Top with whip cream, a light caramel drizzle, and a gummy pumpkin.
-Real Fruit Smoothie
-Standard Instructions (Teany or MighTea)
-	1	Fill the cup (Teany or MighTea) completely with ice.
-	2	Fill the cup to the top with real fruit smoothie puree (Flavor: Strawberry, Mango, or Strawberry Banana).
-	3	Dump the contents into the blender.
-	4	Blend on setting 4 until smooth.
-	5	Pour back into the same cup.
-	6	Top with whipped cream if requested.
-Hot Drinks Menu (Coffee Based)
-Standard Hot Preparation (All Sizes)
-	1	Red Eye: Fill cup with hot coffee + Double shot of espresso.
-	2	Americano: Fill cup with hot water + Double shot of espresso.
-	3	Cappuccino: Fill cup with steamed milk (high foam) + Double shot of espresso.
-	4	Café Latte: Fill cup with steamed milk + Double shot of espresso.
-	5	White Knight: 1.5 scoops (Teany) or 2 scoops (MighTea) White Ghirardelli + Steamed milk + Double shot.
-	6	Caramella: 3 pumps (Teany) or 4 pumps (MighTea) Caramel sauce + Steamed milk + Double shot.
-	7	Café Mocha: 3 pumps (Teany) or 4 pumps (MighTea) Dark Choc sauce + Steamed milk + Double shot.
-	8	Chai Latte: 1.5 scoops (Teany) or 2 scoops (MighTea) Chai powder + Steamed milk or hot water.
-Espresso Machine Operations
-Brewing Process
-	1	Select the correct scoop: Single for single shot, Double for double shot.
-	2	Use the grinder to fill the scoop to the line.
-	3	Use the Espresso Press to compact the grounds and level them off.
-	4	Insert the scoop into the machine and rotate clockwise to lock.
-	5	Place the espresso cup under the spout.
-	6	Push the Start button: 2nd from left for DOUBLE, far left for SINGLE.
-Steaming Process
-	1	Fill the steaming cup no more than half full with milk.
-	2	Insert the steamer wand and lift the lever.
-	3	Steam until the thermometer reads 140-160 degrees (110 for kids).
-	4	Clean the steamer wand immediately after use.
-	5	Discard used grounds and clean the machine.
+        /* Elevated Material Style - Information Dense */
+        .elevated-row {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.01);
+            border-radius: 6px;
+            margin-bottom: 4px;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+
+        .elevated-row:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.04), 0 2px 4px rgba(0,0,0,0.02);
+            z-index: 10;
+            position: relative;
+        }
+
+        /* Accordion Logic */
+        .recipe-drawer {
+            display: none;
+            background: #fafafa;
+            border-top: 1px solid rgba(0,0,0,0.04);
+            border-radius: 0 0 6px 6px;
+        }
+        
+        .recipe-drawer.active {
+            display: block;
+        }
+
+        .size-content {
+            display: none;
+            animation: slideDown 0.2s ease-out forwards;
+        }
+
+        .size-content.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Branding and Typography */
+        .logo-text { font-weight: 800; letter-spacing: -0.04em; }
+        .text-mt-orange { color: var(--mt-orange); }
+        .text-mt-teal { color: var(--mt-teal); }
+        .text-mt-yellow { color: var(--mt-yellow); }
+
+        .search-container {
+            background: white;
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);
+            border-radius: 8px;
+        }
+
+        .category-pill {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 4px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        .category-pill.active {
+            background: var(--mt-orange);
+            color: white;
+            border-color: var(--mt-orange);
+            box-shadow: 0 2px 6px rgba(243, 112, 33, 0.2);
+        }
+
+        /* Dense Elements */
+        .ing-tag {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            background: #f1f5f9;
+            color: #334155;
+            padding: 2px 6px;
+            border-radius: 3px;
+            border: 1px solid #e2e8f0;
+            margin: 0 2px 2px 0;
+        }
+
+        .size-btn {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.1s;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .btn-teany { background: #e0f2fe; color: #0369a1; border-color: #bae6fd; }
+        .btn-teany:hover, .btn-teany.active { background: #0ea5e9; color: white; }
+        
+        .btn-mightea { background: #ffedd5; color: #c2410c; border-color: #fed7aa; }
+        .btn-mightea:hover, .btn-mightea.active { background: #f97316; color: white; }
+
+        .btn-standard { background: #f3f4f6; color: #4b5563; border-color: #e5e7eb; }
+        .btn-standard:hover, .btn-standard.active { background: #6b7280; color: white; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="p-2 md:p-4">
+
+    <!-- Header & Navigation -->
+    <header class="max-w-6xl mx-auto mb-4 sticky top-0 bg-white/80 backdrop-blur-md z-50 pb-2 border-b border-gray-100 pt-2">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-3 mb-3">
+            
+            <!-- Logo -->
+            <div class="flex items-center text-3xl logo-text drop-shadow-sm">
+                <span class="text-mt-orange">MighTea</span>
+                <i class="fas fa-bolt text-mt-yellow mx-1" style="-webkit-text-stroke: 1px #d97706;"></i>
+                <span class="text-mt-teal">Boba</span>
+            </div>
+            
+            <!-- Search -->
+            <div class="w-full md:w-96 search-container flex items-center px-3 py-1.5">
+                <i class="fas fa-search text-gray-400 text-xs mr-2"></i>
+                <input type="text" id="searchInput" placeholder="Search entire database..." 
+                       class="w-full bg-transparent outline-none text-sm font-medium text-gray-700" onkeyup="renderList()">
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div id="filterContainer" class="flex flex-wrap gap-1.5 justify-center md:justify-start">
+            <!-- Injected via JS -->
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-6xl mx-auto">
+        <div id="databaseList" class="flex flex-col">
+            <!-- Recipes Injected via JS -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-8 mb-4 text-center text-[9px] text-gray-400 font-bold uppercase tracking-widest">
+        Developed by Zachary Whiteman & Susan Gemm &bull; EliteSoftware Tech
+    </footer>
+
+    <script>
+        // The Master Payload: Every single recipe from the manual & cheat sheet
+        const masterDatabase = [
+            // BUBBLE TEA
+            { cat: "Bubble Tea", name: "Iced Bubble Tea - Milk Tea", 
+              sizes: {
+                teany: { label: "Teany (8oz)", ings: ["8oz tea base", "1 scoop creamer", "1 scoop flavor powder", "2 scoops bobas", "1/2 pump sugar syrup"], prep: "Shake well and serve over ice." },
+                mightea: { label: "MighTea (12oz)", ings: ["12oz tea base", "1 scoop creamer", "1.5 scoops flavor powder", "2 scoops bobas", "1 full pump sugar syrup"], prep: "Shake well and serve over ice." }
+              }
+            },
+            { cat: "Bubble Tea", name: "Iced Bubble Tea - Fruit Tea", 
+              sizes: {
+                teany: { label: "Teany (8oz)", ings: ["8oz tea base", "NO CREAMER", "1 pump flavor syrup", "2 scoops bobas", "1/2 pump sugar syrup"], prep: "Shake well and serve over ice." },
+                mightea: { label: "MighTea (12oz)", ings: ["12oz tea base", "NO CREAMER", "1.5 pumps flavor syrup", "2 scoops bobas", "1 full pump sugar syrup"], prep: "Shake well and serve over ice." }
+              }
+            },
+            { cat: "Bubble Tea", name: "Bubble Tea Smoothie - Milk Tea Type", note: "MighTea Only",
+              sizes: {
+                mightea: { label: "MighTea (10oz base)", ings: ["10oz tea", "1 scoop creamer", "2 scoops flavor powder", "2 cups ice", "2 scoops bobas", "1 full pump sugar syrup"], prep: "Blend tea, creamer, flavor, sugar, ice until smooth. Add bobas to cup, pour smoothie over." }
+              }
+            },
+            { cat: "Bubble Tea", name: "Bubble Tea Smoothie - Fruit Tea Type", note: "MighTea Only",
+              sizes: {
+                mightea: { label: "MighTea (8oz base)", ings: ["8oz tea", "NO CREAMER", "2 pumps flavor syrup", "2 cups ice", "2 scoops bobas", "1 full pump sugar syrup"], prep: "Blend tea, syrup, sugar, ice until smooth. Add bobas to cup, pour smoothie over." }
+              }
+            },
+            { cat: "Bubble Tea", name: "Honeycomb Bubble Tea", note: "DO NOT SHAKE - MILK WILL FOAM TOO MUCH",
+              sizes: {
+                mightea: { label: "MighTea (12oz)", ings: ["12oz milk", "1.5 pumps Wintermelon fruit syrup", "2 scoops Tapioca bobas", "1 full pump sugar syrup"], prep: "Stir well with a spoon." }
+              }
+            },
+
+            // BLENDED ENERGY
+            { cat: "Energy", name: "Mt. Dew (Amp) Energy Blend", note: "Do not attempt to shake | Do not over ice",
+              sizes: {
+                mightea: { label: "MighTea (8oz base)", ings: ["8oz Amp Energy Drink", "2 scoops Honeydew powder", "1 scoop creamer", "2 scoops boba", "Ice"], prep: "Blend drink, powder, creamer with ice. Pour over boba." }
+              }
+            },
+            { cat: "Energy", name: "Cherry Love (Grape Kickstart)", note: "Do not over ice",
+              sizes: {
+                mightea: { label: "MighTea (8oz base)", ings: ["8oz Grape Kickstart", "2 pumps Raspberry syrup", "2 scoops boba", "Ice"], prep: "Blend drink & syrup with ice. Pour over boba." }
+              }
+            },
+            { cat: "Energy", name: "Mango Madness (Mango Kickstart)", note: "Do not over ice",
+              sizes: {
+                mightea: { label: "MighTea (8oz base)", ings: ["8oz Mango Kickstart", "2 pumps Mango syrup", "2 scoops boba", "Ice"], prep: "Blend drink & syrup with ice. Pour over boba." }
+              }
+            },
+            { cat: "Energy", name: "Grape Galore (Grape Kickstart)", note: "Do not over ice",
+              sizes: {
+                mightea: { label: "MighTea (8oz base)", ings: ["8oz Grape Kickstart", "2 pumps Grape syrup", "2 scoops boba", "Ice"], prep: "Blend drink & syrup with ice. Pour over boba." }
+              }
+            },
+            { cat: "Energy", name: "Cherry Bomb (Cherry Kickstart)", note: "Do not over ice",
+              sizes: {
+                mightea: { label: "MighTea (8oz base)", ings: ["8oz Cherry Kickstart", "2 pumps Pineapple syrup", "2 scoops boba", "Ice"], prep: "Blend drink & syrup with ice. Pour over boba." }
+              }
+            },
+            { cat: "Energy", name: "Berry Bomb (Berry Gamefuel)", note: "Do not over ice",
+              sizes: {
+                mightea: { label: "MighTea (8oz base)", ings: ["8oz Berry Gamefuel", "1 pump Blueberry syrup", "1 pump Raspberry syrup", "2 scoops boba", "Ice"], prep: "Blend drink & syrups with ice. Pour over boba." }
+              }
+            },
+            { cat: "Energy", name: "Make Your Own Energy Blend", note: "Use ONE OR THE OTHER for Powder/Syrup",
+              sizes: {
+                mightea: { label: "MighTea (8oz base)", ings: ["8oz Energy Drink", "2 scoops Flavor OR 2 pumps Flavor", "2 scoops boba", "Ice"], prep: "Blend drink & flavor with ice. Pour over boba." }
+              }
+            },
+
+            // SPRITZERS & SODAS
+            { cat: "Sodas & Spritzers", name: "Razzmatazz (Raspberry Spritzer)",
+              sizes: {
+                mightea: { label: "MighTea Only", ings: ["Full cup ice", "6 pumps Raspberry Torani", "1 full can Starry Soda", "Splash Half & Half"], prep: "Add syrup to ice, pour soda, quick stir w/ espresso spoon, top with cream splash, cap & swirl." }
+              }
+            },
+            { cat: "Sodas & Spritzers", name: "Dirty (Coconut Dr. Pepper)",
+              sizes: {
+                mightea: { label: "MighTea Only", ings: ["Full cup ice", "6 pumps Coconut Torani", "1 full can Dr. Pepper", "Splash Half & Half"], prep: "Add syrup to ice, pour soda, quick stir w/ espresso spoon, top with cream splash, cap & swirl." }
+              }
+            },
+            { cat: "Sodas & Spritzers", name: "Cherry Dream (Cherry Pepsi)",
+              sizes: {
+                mightea: { label: "MighTea Only", ings: ["Full cup ice", "6 pumps Cherry Torani", "1 full can Pepsi", "Splash Half & Half"], prep: "Add syrup to ice, pour soda, quick stir w/ espresso spoon, top with cream splash, cap & swirl." }
+              }
+            },
+            { cat: "Sodas & Spritzers", name: "Bubblegum Blitz",
+              sizes: {
+                mightea: { label: "MighTea Only", ings: ["Full cup ice", "1 large boba scoop Bubblegum syrup", "1 12oz can Schweppes", "Splash Half & Half"], prep: "Add syrup to ice, pour soda, quick stir w/ espresso spoon, top with cream splash, cap & swirl." }
+              }
+            },
+            { cat: "Sodas & Spritzers", name: "Campfire Comfort",
+              sizes: {
+                mightea: { label: "MighTea Only", ings: ["Full cup ice", "4 pumps Marshmallow", "2 pumps Vanilla Torani", "1 full can Mug Rootbeer", "Splash Half & Half"], prep: "Add syrups to ice, pour soda, quick stir w/ espresso spoon, top with cream splash, cap & swirl." }
+              }
+            },
+            { cat: "Sodas & Spritzers", name: "Tangy Tidal Wave",
+              sizes: {
+                teany: { label: "Teany", ings: ["1 can Sprite", "6 pumps Blue Raspberry Torani"], prep: "Pour cup into blender & blend." },
+                mightea: { label: "MighTea", ings: ["1 can Sprite", "6 pumps Blue Raspberry Torani"], prep: "Pour cup into blender & blend." }
+              }
+            },
+            { cat: "Sodas & Spritzers", name: "Cranberry Orange Spritzer (Mary Jolly)",
+              sizes: {
+                standard: { label: "Standard Size", ings: ["Sprite", "5 pumps Cranberry", "1 pump Orange"], prep: "Combine ingredients." }
+              }
+            },
+            { cat: "Sodas & Spritzers", name: "Fruit Punch Rockstar (Blended)",
+              sizes: {
+                standard: { label: "Standard Size", ings: ["8oz Fruit Punch Rockstar", "1 pump Guava Fruit Tea", "1/2 pump Orange Fruit Tea", "1/2 pump Pineapple Fruit Tea", "2 cups ice", "Boba (Mango recommended)"], prep: "Blend until smooth. Pour over boba." }
+              }
+            },
+
+            // COFFEE / MOCHA (NON-LATTE)
+            { cat: "Coffee Flavors", name: "Caramel Craze",
+              sizes: {
+                teany: { label: "Teany (Double Shot)", ings: ["Double shot espresso", "1 BIG boba scoop Caramel sauce", "1 pump Vanilla syrup", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk (hot/cold)." },
+                mightea: { label: "MighTea (Triple Shot)", ings: ["Triple shot espresso", "2 BIG boba scoops Caramel sauce", "2 pumps Vanilla syrup", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk (hot/cold)." }
+              }
+            },
+            { cat: "Coffee Flavors", name: "Irish Mudslide",
+              sizes: {
+                teany: { label: "Teany (Double Shot)", ings: ["Double shot espresso", "1 SMALL boba scoop Dark Choc sauce", "1 pump Irish Creme syrup", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." },
+                mightea: { label: "MighTea (Triple Shot)", ings: ["Triple shot espresso", "1 BIG boba scoop Dark Choc sauce", "2 pumps Irish Creme syrup", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." }
+              }
+            },
+            { cat: "Coffee Flavors", name: "Mint Mocha",
+              sizes: {
+                teany: { label: "Teany (Double Shot)", ings: ["Double shot espresso", "1 SMALL boba scoop Dark Choc", "1 pump Peppermint syrup", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." },
+                mightea: { label: "MighTea (Triple Shot)", ings: ["Triple shot espresso", "1 BIG boba scoop Dark Choc", "2 pumps Peppermint syrup", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." }
+              }
+            },
+            { cat: "Coffee Flavors", name: "Rocky Road",
+              sizes: {
+                teany: { label: "Teany (Double Shot)", ings: ["Double shot espresso", "1 SMALL boba scoop Dark Choc", "1 pump Almond", "1 pump Marshmallow", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." },
+                mightea: { label: "MighTea (Triple Shot)", ings: ["Triple shot espresso", "1 BIG boba scoop Dark Choc", "2 pumps Almond", "2 pumps Marshmallow", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." }
+              }
+            },
+            { cat: "Coffee Flavors", name: "Snickers",
+              sizes: {
+                teany: { label: "Teany (Double Shot)", ings: ["Double shot espresso", "1 SMALL boba scoop Caramel", "1 pump Hazelnut", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." },
+                mightea: { label: "MighTea (Triple Shot)", ings: ["Triple shot espresso", "1 BIG boba scoop Caramel", "2 pumps Hazelnut", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." }
+              }
+            },
+            { cat: "Coffee Flavors", name: "Vanilla Vice",
+              sizes: {
+                teany: { label: "Teany (Double Shot)", ings: ["Double shot espresso", "1 SMALL boba scoop Dark Choc", "1 pump Vanilla", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." },
+                mightea: { label: "MighTea (Triple Shot)", ings: ["Triple shot espresso", "1 BIG boba scoop Dark Choc", "2 pumps Vanilla", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." }
+              }
+            },
+            { cat: "Coffee Flavors", name: "Buckeye Mocha",
+              sizes: {
+                teany: { label: "Teany (Double Shot)", ings: ["Double shot espresso", "1 SMALL boba scoop White Choc", "1 pump Peanut Butter", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." },
+                mightea: { label: "MighTea (Triple Shot)", ings: ["Triple shot espresso", "1 BIG boba scoop White Choc", "2 pumps Peanut Butter", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." }
+              }
+            },
+            { cat: "Coffee Flavors", name: "Monkey Business",
+              sizes: {
+                teany: { label: "Teany (Double Shot)", ings: ["Double shot espresso", "1 BIG boba scoop Dark Choc", "1 pump Banana", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." },
+                mightea: { label: "MighTea (Triple Shot)", ings: ["Triple shot espresso", "2 BIG boba scoops Dark Choc", "2 pumps Banana", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." }
+              }
+            },
+            { cat: "Coffee Flavors", name: "Nilla Nilla Bon",
+              sizes: {
+                teany: { label: "Teany (Double Shot)", ings: ["Double shot espresso", "1 SMALL boba scoop Caramel", "1 pump Vanilla", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." },
+                mightea: { label: "MighTea (Triple Shot)", ings: ["Triple shot espresso", "1 BIG boba scoop Caramel", "2 pumps Vanilla", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." }
+              }
+            },
+            { cat: "Coffee Flavors", name: "Pumpkin Coffee",
+              sizes: {
+                teany: { label: "Teany (Double Shot)", ings: ["Double shot espresso", "1 SMALL boba scoop White Choc", "1 pump Pumpkin", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." },
+                mightea: { label: "MighTea (Triple Shot)", ings: ["Triple shot espresso", "1 BIG boba scoop White Choc", "2 pumps Pumpkin", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." }
+              }
+            },
+            { cat: "Coffee Flavors", name: "Almond Joy",
+              sizes: {
+                teany: { label: "Teany (Double Shot)", ings: ["Double shot espresso", "1 SMALL boba scoop Dark Choc", "1 pump Coconut", "1 pump Almond", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." },
+                mightea: { label: "MighTea (Triple Shot)", ings: ["Triple shot espresso", "1 BIG boba scoop Dark Choc", "2 pumps Coconut", "2 pumps Almond", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." }
+              }
+            },
+            { cat: "Coffee Flavors", name: "Berry Blonde",
+              sizes: {
+                teany: { label: "Teany (Double Shot)", ings: ["Double shot espresso", "1 SMALL boba scoop White Choc", "1 pump Raspberry", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." },
+                mightea: { label: "MighTea (Triple Shot)", ings: ["Triple shot espresso", "1 BIG boba scoop White Choc", "2 pumps Raspberry", "Milk / Ice"], prep: "Mix flavors w/ espresso. Add milk." }
+              }
+            },
+
+            // LATTES
+            { cat: "Lattes", name: "S'mores Latte",
+              sizes: {
+                teany: { label: "Teany (Double Shot)", ings: ["2 small scoops Choc", "4 pumps Toasted Marshmallow", "Milk", "Whip, Choc drizzle, Graham sprinkles"], prep: "Hot: Steam milk w/ syrup. Iced: Mix flavor w/ espresso." },
+                mightea: { label: "MighTea (Triple Shot)", ings: ["1 BIG scoop Choc", "6 pumps Toasted Marshmallow", "Milk", "Whip, Choc drizzle, Graham sprinkles"], prep: "Hot: Steam milk w/ syrup. Iced: Mix flavor w/ espresso." }
+              }
+            },
+            { cat: "Lattes", name: "Mounds Latte",
+              sizes: {
+                teany: { label: "Teany (Double Shot)", ings: ["2 small scoops Choc", "4 pumps Coconut", "Milk", "Whip, Choc drizzle, Coconut sprinkles"], prep: "Hot: Steam milk w/ syrup. Iced: Mix flavor w/ espresso." },
+                mightea: { label: "MighTea (Triple Shot)", ings: ["1 BIG scoop Choc", "6 pumps Coconut", "Milk", "Whip, Choc drizzle, Coconut sprinkles"], prep: "Hot: Steam milk w/ syrup. Iced: Mix flavor w/ espresso." }
+              }
+            },
+            { cat: "Lattes", name: "Jolly Cranberry Latte",
+              sizes: {
+                teany: { label: "Teany (Double Shot)", ings: ["2 pumps Cranberry", "1 small scoop White Choc", "Milk", "Whip"], prep: "Hot: Steam milk w/ syrup. Iced: Mix flavor w/ espresso." },
+                mightea: { label: "MighTea (Triple Shot)", ings: ["4 pumps Cranberry", "1 BIG scoop White Choc", "Milk", "Whip"], prep: "Hot: Steam milk w/ syrup. Iced: Mix flavor w/ espresso." }
+              }
+            },
+
+            // HOT MENU BASE
+            { cat: "Hot Drinks", name: "Red Eye & Americano",
+              sizes: {
+                standard: { label: "Standard", ings: ["Red Eye: Hot Coffee + Double Shot", "Americano: Hot Water + Double Shot"], prep: "Pour base, add espresso." }
+              }
+            },
+            { cat: "Hot Drinks", name: "Cappuccino & Cafe Latte",
+              sizes: {
+                standard: { label: "Standard", ings: ["Cappuccino: Steamed Milk (high foam) + Double Shot", "Cafe Latte: Steamed Milk + Double Shot"], prep: "Steam milk accordingly, pour over espresso." }
+              }
+            },
+            { cat: "Hot Drinks", name: "White Knight (Hot)",
+              sizes: {
+                teany: { label: "Teany", ings: ["1.5 scoops White Ghirardelli", "Steamed milk", "Double shot espresso"], prep: "Mix powder, pour milk over espresso." },
+                mightea: { label: "MighTea", ings: ["2 scoops White Ghirardelli", "Steamed milk", "Double shot espresso"], prep: "Mix powder, pour milk over espresso." }
+              }
+            },
+            { cat: "Hot Drinks", name: "Caramella (Hot)",
+              sizes: {
+                teany: { label: "Teany", ings: ["3 pumps Caramel sauce", "Steamed milk", "Double shot espresso"], prep: "Mix sauce, pour milk over espresso." },
+                mightea: { label: "MighTea", ings: ["4 pumps Caramel sauce", "Steamed milk", "Double shot espresso"], prep: "Mix sauce, pour milk over espresso." }
+              }
+            },
+            { cat: "Hot Drinks", name: "Cafe Mocha (Hot)",
+              sizes: {
+                teany: { label: "Teany", ings: ["3 pumps Dark Choc sauce", "Steamed milk", "Double shot espresso"], prep: "Mix sauce, pour milk over espresso." },
+                mightea: { label: "MighTea", ings: ["4 pumps Dark Choc sauce", "Steamed milk", "Double shot espresso"], prep: "Mix sauce, pour milk over espresso." }
+              }
+            },
+            { cat: "Hot Drinks", name: "Chai Latte (Hot)",
+              sizes: {
+                teany: { label: "Teany", ings: ["1.5 scoops Chai powder", "Steamed milk OR hot water"], prep: "Mix powder." },
+                mightea: { label: "MighTea", ings: ["2 scoops Chai powder", "Steamed milk OR hot water"], prep: "Mix powder." }
+              }
+            },
+
+            // ICED MENU BASE
+            { cat: "Iced Drinks", name: "Iced Mocha",
+              sizes: {
+                teany: { label: "Teany", ings: ["Cold milk", "Double shot espresso", "3 pumps Dark Choc", "Coffee cubes"], prep: "Mix espresso and sauce in silver cup before pouring over ice & milk." },
+                mightea: { label: "MighTea", ings: ["Cold milk", "Double shot espresso", "4 pumps Dark Choc", "Coffee cubes"], prep: "Mix espresso and sauce in silver cup before pouring over ice & milk." }
+              }
+            },
+            { cat: "Iced Drinks", name: "Iced Caramella",
+              sizes: {
+                teany: { label: "Teany", ings: ["Cold milk", "Double shot espresso", "3 pumps Caramel", "Coffee cubes"], prep: "Mix espresso and sauce in silver cup before pouring." },
+                mightea: { label: "MighTea", ings: ["Cold milk", "Double shot espresso", "4 pumps Caramel", "Coffee cubes"], prep: "Mix espresso and sauce in silver cup before pouring." }
+              }
+            },
+            { cat: "Iced Drinks", name: "Iced White Knight",
+              sizes: {
+                teany: { label: "Teany", ings: ["Cold milk", "Double shot espresso", "1.5 level scoops White Ghirardelli", "Coffee cubes"], prep: "Mix espresso and powder in silver cup before pouring." },
+                mightea: { label: "MighTea", ings: ["Cold milk", "Double shot espresso", "2 level scoops White Ghirardelli", "Coffee cubes"], prep: "Mix espresso and powder in silver cup before pouring." }
+              }
+            },
+            { cat: "Iced Drinks", name: "Iced Chai & Iced Coffee & Iced Tea",
+              sizes: {
+                standard: { label: "Standard Info", ings: ["Iced Chai: Cold milk + Chai powder (Mix w/ small hot water first to break up)", "Iced Coffee: Cold coffee over coffee cubes", "Iced Tea: Cold Green/Black tea over regular ice (add liquid sugar if sweetened)"], prep: "Add espresso to Chai to make 'Dirty'." }
+              }
+            },
+
+            // MILKSHAKES & SMOOTHIES
+            { cat: "Milkshakes", name: "Real Fruit Smoothie",
+              sizes: {
+                standard: { label: "Teany / MighTea", ings: ["Full cup ice", "Real Fruit puree (Strawberry, Mango, Strawberry Banana)"], prep: "Fill cup with ice, fill with puree. Blend on 4. Pour back into same cup." }
+              }
+            },
+            { cat: "Milkshakes", name: "Galaxy Smoothie (Pair of 2)", note: "DO NOT OVER ICE",
+              sizes: {
+                mightea: { label: "2x MighTea Cups", ings: ["2 level scoops Blueberry Boba per cup", "Peach: 8oz tea + 2 pumps peach + 1 pump sugar + ice", "Blueberry: 8oz tea + 2 pumps blueberry + 1 pump sugar + ice", "Galaxy sprinkles"], prep: "Add boba. Pour Peach first, then Blueberry on top. Sparingly add sprinkles." }
+              }
+            },
+            { cat: "Milkshakes", name: "Pumpkin Pie Milkshake",
+              sizes: {
+                mightea: { label: "MighTea Only", ings: ["6oz Milk", "1.5 blue scoops milkshake powder", "2 BIG scoops Thai powder", "3/4 tsp pumpkin spice", "20oz ice"], prep: "Blend smooth. Top with whip and gummy pumpkin." }
+              }
+            },
+            { cat: "Milkshakes", name: "Peppermint Mocha Milkshake",
+              sizes: {
+                teany: { label: "Teany", ings: ["4oz milk", "1 scoop milkshake powder", "1.5 scoops choc mocha powder", "5 pumps Peppermint", "1.5 cups ice", "1 scoop Green Apple pearls", "Whip, rainbow sprinkles, gummy tree"], prep: "Blend. Put pearls in cup, pour shake, garnish." },
+                mightea: { label: "MighTea", ings: ["6oz milk", "1.5 scoops milkshake powder", "2 scoops choc mocha powder", "7 pumps Peppermint", "2.5 cups ice", "1.5 scoops Green Apple pearls", "Whip, rainbow sprinkles, gummy tree"], prep: "Blend. Put pearls in cup, pour shake, garnish." }
+              }
+            },
+            { cat: "Milkshakes", name: "Strawberry Milkshake",
+              sizes: {
+                teany: { label: "Teany", ings: ["4oz milk", "1 scoop white frappe", "1.5 scoops strawberry powder", "1.5 cups ice", "1 scoop Strawberry Boba", "Whip, pink+gold dust, marshmallow twist"], prep: "Blend. Put boba in cup, pour shake, garnish." },
+                mightea: { label: "MighTea", ings: ["6oz milk", "1.5 scoops white frappe", "2 scoops strawberry powder", "2.5 cups ice", "1.5 scoops Strawberry Boba", "Whip, pink+gold dust, marshmallow twist"], prep: "Blend. Put boba in cup, pour shake, garnish." }
+              }
+            },
+            { cat: "Milkshakes", name: "Pomegranate Milkshake",
+              sizes: {
+                teany: { label: "Teany", ings: ["4oz milk", "1 scoop white frappe", "1.5 pumps Pomegranate syrup", "1.5 cups ice", "2 scoops Pomegranate pearls", "Whip, red sprinkles, gummy heart"], prep: "Blend. Put pearls in cup, pour shake, garnish." },
+                mightea: { label: "MighTea", ings: ["6oz milk", "1.5 scoops white frappe", "2 pumps Pomegranate syrup", "2.5 cups ice", "2 scoops Pomegranate pearls", "Whip, red sprinkles, gummy heart"], prep: "Blend. Put pearls in cup, pour shake, garnish." }
+              }
+            },
+            { cat: "Milkshakes", name: "Green Apple Milkshake",
+              sizes: {
+                teany: { label: "Teany", ings: ["4oz milk", "1 scoop white frappe", "1 pump Green Apple", "1/2 pump Lemon", "1.5 cups ice", "2 scoops Green Apple Boba", "Whip, gold sprinkles, gummy rainbow"], prep: "Blend. Put boba in cup, pour shake, garnish." },
+                mightea: { label: "MighTea", ings: ["6oz milk", "1.5 scoops white frappe", "2 pumps Green Apple", "1 pump Lemon", "2.5 cups ice", "2 scoops Green Apple Boba", "Whip, gold sprinkles, gummy rainbow"], prep: "Blend. Put boba in cup, pour shake, garnish." }
+              }
+            },
+            { cat: "Milkshakes", name: "Peach Mango Milkshake",
+              sizes: {
+                teany: { label: "Teany", ings: ["4oz milk", "1 scoop white frappe", "1 pump Peach", "1/2 pump Mango", "1.5 cups ice", "2 scoops Mango pearls", "Whip, gold sprinkles, gummy rainbow"], prep: "Blend. Put pearls in cup, pour shake, garnish." },
+                mightea: { label: "MighTea", ings: ["6oz milk", "1.5 scoops white frappe", "1 pump Peach", "1 pump Mango", "2.5 cups ice", "2 scoops Mango pearls", "Whip, gold sprinkles, gummy rainbow"], prep: "Blend. Put pearls in cup, pour shake, garnish." }
+              }
+            },
+            { cat: "Milkshakes", name: "Blueberry Milkshake",
+              sizes: {
+                teany: { label: "Teany", ings: ["4oz milk", "1 scoop white frappe", "1.5 pumps Blueberry syrup", "1.5 cups ice", "2 scoops Blueberry pearls", "Whip, red/blue sprinkles, gummy cherry"], prep: "Blend. Put pearls in cup, pour shake, garnish." },
+                mightea: { label: "MighTea", ings: ["6oz milk", "1.5 scoops white frappe", "2 pumps Blueberry syrup", "2.5 cups ice", "2 scoops Blueberry pearls", "Whip, red/blue sprinkles, gummy cherry"], prep: "Blend. Put pearls in cup, pour shake, garnish." }
+              }
+            },
+            { cat: "Milkshakes", name: "Hershey's Pumpkin Milkshake", note: "Don't start w/ too much ice cream",
+              sizes: {
+                mightea: { label: "MighTea Only", ings: ["3oz milk", "11oz Pumpkin Ice Cream", "Caramel drizzle in cup", "Whip", "Gummy pumpkin"], prep: "Blend milk & ice cream. Pour into drizzled cup. Top with whip/gummy." }
+              }
+            },
+            { cat: "Milkshakes", name: "Hershey's Vanilla Milkshake",
+              sizes: {
+                teany: { label: "Teany Only", ings: ["2oz milk", "8oz Vanilla Ice Cream", "Caramel drizzle in cup", "Whip", "Gummy pumpkin"], prep: "Blend milk & ice cream. Pour into drizzled cup. Top with whip/gummy." }
+              }
+            },
+            { cat: "Milkshakes", name: "Blue Hawaiian Milkshake",
+              sizes: {
+                teany: { label: "Teany", ings: ["4oz milk", "1 scoop white frappe", "1.5 scoops Blue Hawaiian", "1.5 cups ice", "1 scoop Green Apple pearls", "Whip, rainbow sprinkles, gummy shark"], prep: "Blend. Put pearls in cup, pour shake, garnish." },
+                mightea: { label: "MighTea", ings: ["6oz milk", "1.5 scoops white frappe", "2 scoops Blue Hawaiian", "2.5 cups ice", "2 scoops Green Apple pearls", "Whip, rainbow sprinkles, gummy shark"], prep: "Blend. Put pearls in cup, pour shake, garnish." }
+              }
+            },
+            
+            // BUBBLE TEA MILKSHAKES (ICE BLENDED)
+            { cat: "Milkshakes", name: "Bubble Tea Milkshakes - Fruit / Milk Base", note: "No creamer or sugar. Add more ice cream if runny.",
+              sizes: {
+                teany: { label: "Teany Fruit / Milk", ings: ["5oz Milk", "1 scoop Milkshake Powder", "1.5 pump/scoop Flavor", "1.5 scoop Ice", "1 scoop Boba", "Whip"], prep: "Blend until thick." },
+                mightea: { label: "MighTea Fruit / Milk", ings: ["8oz Milk", "1.5 scoop Milkshake Powder", "2 pump/scoop Flavor", "2 scoops Ice", "2 scoops Boba", "Whip"], prep: "Blend until thick." }
+              }
+            },
+
+            // FROSTED FAVORITES
+            { cat: "Frosted", name: "Chai Milk w/ Ice",
+              sizes: {
+                teany: { label: "Teany", ings: ["6oz Milk", "1 scoop Ice Cream", "2 scoops Flavor", "Whip"], prep: "Blend." },
+                mightea: { label: "MighTea", ings: ["8oz Milk", "1.5 scoops Ice Cream", "2 scoops Flavor", "Whip"], prep: "Blend." }
+              }
+            },
+            { cat: "Frosted", name: "Iced Chai (Frosted Category)",
+              sizes: {
+                teany: { label: "Teany", ings: ["8oz Milk", "2 scoops powder"], prep: "Mix." },
+                mightea: { label: "MighTea", ings: ["12oz Milk", "2 scoops powder"], prep: "Mix." }
+              }
+            },
+            { cat: "Frosted", name: "Frosted Chai",
+              sizes: {
+                teany: { label: "Teany", ings: ["6oz Milk", "1.5 scoops Chai powder", "12oz Ice", "Whip"], prep: "Blend." },
+                mightea: { label: "MighTea", ings: ["8oz Milk", "2 scoops Chai powder", "20oz Ice", "Whip"], prep: "Blend." }
+              }
+            },
+            { cat: "Frosted", name: "Arctic Mocha",
+              sizes: {
+                teany: { label: "Teany", ings: ["6oz Milk", "1.5 scoops Mocha powder", "12oz Ice", "Whip"], prep: "Blend." },
+                mightea: { label: "MighTea", ings: ["8oz Milk", "2 scoops Mocha powder", "20oz Ice", "Whip"], prep: "Blend." }
+              }
+            },
+            { cat: "Frosted", name: "Vanilla Dream",
+              sizes: {
+                teany: { label: "Teany", ings: ["6oz Milk", "1.5 scoops Vanilla Smoothie powder", "12oz Ice", "Whip"], prep: "Blend." },
+                mightea: { label: "MighTea", ings: ["8oz Milk", "2 scoops Vanilla Smoothie powder", "20oz Ice", "Whip"], prep: "Blend." }
+              }
+            },
+            { cat: "Frosted", name: "Java Chip",
+              sizes: {
+                teany: { label: "Teany", ings: ["6oz Milk", "1.5 scoops Java Chip", "12oz Ice", "Whip"], prep: "Blend." },
+                mightea: { label: "MighTea", ings: ["8oz Milk", "2 scoops Java Chip", "20oz Ice", "Whip"], prep: "Blend." }
+              }
+            },
+            { cat: "Frosted", name: "Kidz Kreamz",
+              sizes: {
+                teany: { label: "Teany", ings: ["6oz Milk", "1.5 scoops Kidz Kreamz powder", "12oz Ice", "Whip"], prep: "Blend." },
+                mightea: { label: "MighTea", ings: ["8oz Milk", "2 scoops Kidz Kreamz powder", "20oz Ice", "Whip"], prep: "Blend." }
+              }
+            },
+            { cat: "Frosted", name: "Frosted Latte (Caramel/Vanilla Coffee)",
+              sizes: {
+                teany: { label: "Teany", ings: ["6oz Milk", "1.5 scoops Flavored Latte", "12oz Ice", "Whip"], prep: "Blend." },
+                mightea: { label: "MighTea", ings: ["8oz Milk", "2 scoops Flavored Latte", "20oz Ice", "Whip"], prep: "Blend." }
+              }
+            }
+        ];
+
+        let activeFilter = "All";
+        const allCats = ["All", ...new Set(masterDatabase.map(d => d.cat))];
+
+        function renderFilters() {
+            document.getElementById('filterContainer').innerHTML = allCats.map(cat => `
+                <button class="category-pill ${activeFilter === cat ? 'active' : ''}" 
+                        onclick="setFilter('${cat}')">${cat}</button>
+            `).join('');
+        }
+
+        function setFilter(cat) {
+            activeFilter = cat;
+            renderFilters();
+            renderList();
+        }
+
+        function toggleMain(index) {
+            const drawer = document.getElementById(`drawer-${index}`);
+            const icon = document.getElementById(`icon-${index}`);
+            
+            if (drawer.classList.contains('active')) {
+                drawer.classList.remove('active');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                drawer.classList.add('active');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        function toggleSize(dbIndex, sizeKey) {
+            const content = document.getElementById(`size-${dbIndex}-${sizeKey}`);
+            const btn = document.getElementById(`btn-${dbIndex}-${sizeKey}`);
+            
+            content.classList.toggle('active');
+            btn.classList.toggle('active');
+        }
+
+        function renderList() {
+            const container = document.getElementById('databaseList');
+            const searchQ = document.getElementById('searchInput').value.toLowerCase();
+            
+            const filtered = masterDatabase.filter(d => {
+                const isCat = activeFilter === "All" || d.cat === activeFilter;
+                const isMatch = d.name.toLowerCase().includes(searchQ) || 
+                                (d.note && d.note.toLowerCase().includes(searchQ));
+                return isCat && isMatch;
+            });
+
+            container.innerHTML = filtered.map((d, i) => {
+                const sKeys = Object.keys(d.sizes);
+                
+                let sizeButtonsHtml = sKeys.map(k => {
+                    let btnClass = k === 'teany' ? 'btn-teany' : k === 'mightea' ? 'btn-mightea' : 'btn-standard';
+                    return `<button id="btn-${i}-${k}" class="size-btn ${btnClass} flex-1" onclick="toggleSize(${i}, '${k}')">
+                                VIEW ${d.sizes[k].label.toUpperCase()}
+                            </button>`;
+                }).join('');
+
+                let sizeContentHtml = sKeys.map(k => {
+                    const data = d.sizes[k];
+                    const ingsHtml = data.ings.map(ing => `<span class="ing-tag">${ing}</span>`).join('');
+                    return `
+                        <div id="size-${i}-${k}" class="size-content mt-2 p-2 bg-white rounded border border-gray-100 shadow-sm">
+                            <div class="text-[10px] font-bold text-gray-400 mb-1 uppercase tracking-widest border-b border-gray-50 pb-1">${data.label} Build</div>
+                            <div class="mb-2 leading-tight">${ingsHtml}</div>
+                            <div class="text-xs text-gray-500 italic flex items-start gap-1"><i class="fas fa-arrow-right text-[10px] mt-0.5 opacity-50"></i> ${data.prep}</div>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="elevated-row">
+                        <!-- Header Row -->
+                        <div class="flex items-center justify-between px-3 py-2 cursor-pointer bg-white rounded hover:bg-slate-50 transition" onclick="toggleMain(${i})">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-gray-100 text-gray-500 border border-gray-200 uppercase tracking-wider">${d.cat}</span>
+                                <h3 class="font-bold text-sm text-gray-800 leading-none">${d.name}</h3>
+                            </div>
+                            <i id="icon-${i}" class="fas fa-chevron-down text-gray-300 text-[10px] transition-transform duration-200"></i>
+                        </div>
+
+                        <!-- Expansion Drawer -->
+                        <div id="drawer-${i}" class="recipe-drawer px-3 pb-3 pt-2">
+                            ${d.note ? `<div class="text-[10px] font-bold text-red-500 mb-2 uppercase tracking-wide flex items-center gap-1"><i class="fas fa-exclamation-triangle"></i> ${d.note}</div>` : ''}
+                            
+                            <div class="flex gap-2">
+                                ${sizeButtonsHtml}
+                            </div>
+                            
+                            <div class="flex flex-col gap-2">
+                                ${sizeContentHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Boot system
+        window.onload = () => {
+            renderFilters();
+            renderList();
+        };
+    </script>
+</body>
+</html>
+
+```
